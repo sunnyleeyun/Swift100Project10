@@ -22,8 +22,8 @@ class ViewController: UIViewController {
     
     tableView?.register(FirstTableViewCell.nib, forCellReuseIdentifier: FirstTableViewCell.identifier)
     
-    //tableView.dataSource = self
-    //tableView.delegate = self
+    tableView?.dataSource = self
+    tableView?.delegate = self
     
   }
 
@@ -34,31 +34,26 @@ class ViewController: UIViewController {
 
 
 }
-/*
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
-  
-  // MARK: <UITableView Data Source>
-  
-  func numberOfSections(in tableView: UITableView) -> Int {
-    return 1
-  }
-  
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 2
-  }
-  
+
+extension ViewController: UITableViewDelegate{
+  // All methods in UITableViewDelegate are optional
+
+}
+
+extension ViewController: UITableViewDataSource{
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    if let cell = tableView.dequeueReusableCell(withIdentifier: FirstTableViewCell.identifier, for: indexPath) as? FirstTableViewCell
+    {
+      cell.configureWithItem(item: dataArray[indexPath.item])
+      return cell
+    }
     
+    return UITableViewCell()
   }
-  
-  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return dataArray.count
   }
-  
-  // MARK: <UITableView Delegate>
-  
-  
-  
-}*/
+}
 
 
 
