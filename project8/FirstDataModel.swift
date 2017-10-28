@@ -24,15 +24,15 @@ class FirstDataModel{
   
   
   func requestData(){
-    var data: [AnyObject]? = nil
+    //var data: [AnyObject]? = nil
 
     Alamofire.request(url).validate().responseJSON { (response) in
       switch response.result.isSuccess{
       case true:
         if let data = response.result.value{
           
-          data = data as? AnyObject
-          setDataWithResponse(response: data)
+          
+          self.setDataWithResponse(response: data as! [AnyObject])
           //if let number = json[]
         }
         

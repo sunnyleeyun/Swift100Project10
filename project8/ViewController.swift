@@ -12,12 +12,17 @@ import Alamofire
 class ViewController: UIViewController {
 
   @IBOutlet weak var tableView: UITableView?
-  fileprivate var dataArray = [FirstDataModelItem]()
+  fileprivate var dataArray = [FirstDataModelItem](){
+    didSet {
+      tableView?.reloadData()
+    }
+  }
   // Note, that we do not create this data inside the ViewController
   // class: the dataArray is an empty array. We will feed it with data
   // later, using the Delegate.
   
   private let dataSource = FirstDataModel()
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -27,6 +32,13 @@ class ViewController: UIViewController {
     tableView?.dataSource = self
     tableView?.delegate = self
     
+    dataSource.delegate = self
+    
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(true)
+    dataSource.requestData()
   }
 
   override func didReceiveMemoryWarning() {
@@ -54,6 +66,14 @@ extension ViewController: UITableViewDataSource{
   }
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return dataArray.count
+  }
+}
+
+extension ViewController: FirstDataModelDelegate{
+  func didFailDataUpdateWithError(error: Error) {
+  }
+  func didRecieveDataUpdate(data: [FirstDataModelItem]) {
+    dataArray = data
   }
 }
 
