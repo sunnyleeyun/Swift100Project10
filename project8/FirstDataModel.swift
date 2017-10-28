@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import Alamofire
+import SwiftyJSON
+
 protocol FirstDataModelDelegate: class {
   func didRecieveDataUpdate(data: [FirstDataModelItem])
   func didFailDataUpdateWithError(error: Error)
@@ -20,12 +22,17 @@ class FirstDataModel{
 
   let url = "https://jsonplaceholder.typicode.com/photos"
   
+  
   func requestData(){
+    var data: [AnyObject]? = nil
+
     Alamofire.request(url).validate().responseJSON { (response) in
       switch response.result.isSuccess{
       case true:
-        if let value = response.result.value{
-          //let json = JSON(value)
+        if let data = response.result.value{
+          
+          data = data as? AnyObject
+          setDataWithResponse(response: data)
           //if let number = json[]
         }
         
@@ -39,7 +46,7 @@ class FirstDataModel{
   private func setDataWithResponse(response: [AnyObject]) {
     var data = [FirstDataModelItem]()
     for item in response {
-      // create DRHTableViewDataModelItem out of AnyObject
+      // create FirstDataModelItem out of AnyObject
       if let firstDataModelItem = FirstDataModelItem(data: item as? [String: String]){
         data.append(firstDataModelItem)
       }

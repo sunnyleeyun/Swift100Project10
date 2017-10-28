@@ -17,6 +17,8 @@ class ViewController: UIViewController {
   // class: the dataArray is an empty array. We will feed it with data
   // later, using the Delegate.
   
+  private let dataSource = FirstDataModel()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
