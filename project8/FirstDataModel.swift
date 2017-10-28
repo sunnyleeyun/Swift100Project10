@@ -20,7 +20,7 @@ class FirstDataModel{
   // [weak var] avoid retain cycle
   weak var delegate: FirstDataModelDelegate?
 
-  let url = "https://jsonplaceholder.typicode.com/photos"
+  let url = "https://jsonplaceholder.typicode.com/photos?albumId=1"
   
   
   func requestData(){
@@ -31,7 +31,7 @@ class FirstDataModel{
       case true:
         if let data = response.result.value{
           
-          
+          print(data as! [AnyObject])
           self.setDataWithResponse(response: data as! [AnyObject])
           //if let number = json[]
         }

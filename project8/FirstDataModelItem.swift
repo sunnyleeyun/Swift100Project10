@@ -15,6 +15,7 @@ class FirstDataModelItem{
   
   init?(data: [String: String]?) {
     if let data = data, let image = data["url"], let label = data["title"]{
+      
       self.FirstImageUrl = image
       self.FirstLabel = label
     } else {
