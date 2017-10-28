@@ -9,8 +9,15 @@
 import Foundation
 import UIKit
 import Alamofire
+protocol FirstDataModelDelegate: class {
+  func didRecieveDataUpdate(data: [FirstDataModelItem])
+  func didFailDataUpdateWithError(error: Error)
+}
 
 class FirstDataModel{
+  // [weak var] avoid retain cycle
+  weak var delegate: FirstDataModelDelegate?
+
   let url = "https://jsonplaceholder.typicode.com/photos"
   
   func requestData(){
@@ -23,7 +30,8 @@ class FirstDataModel{
         }
         
       case false:
-        print(response.result.error)
+        self.delegate?.didFailDataUpdateWithError(error: response.result.error!)
+        //print(response.result.error)
       }
     }
   }
@@ -35,7 +43,7 @@ class FirstDataModel{
       if let firstDataModelItem = FirstDataModelItem(data: item as? [String: String]){
         data.append(firstDataModelItem)
       }
-      
+      delegate?.didRecieveDataUpdate(data: data)
     }
   }
   
