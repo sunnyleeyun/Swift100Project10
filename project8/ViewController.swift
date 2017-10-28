@@ -11,10 +11,16 @@ import Alamofire
 
 class ViewController: UIViewController {
 
-  @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var tableView: UITableView?
+  fileprivate var dataArray = [FirstDataModelItem]()
+  // Note, that we do not create this data inside the ViewController
+  // class: the dataArray is an empty array. We will feed it with data
+  // later, using the Delegate.
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    tableView?.register(FirstTableViewCell.nib, forCellReuseIdentifier: FirstTableViewCell.identifier)
     
     //tableView.dataSource = self
     //tableView.delegate = self

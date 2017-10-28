@@ -10,6 +10,12 @@ import UIKit
 
 class FirstTableViewCell: UITableViewCell {
   
+  class var identifier: String {
+    return String(describing: self)
+  }
+  class var nib: UINib {
+    return UINib(nibName: identifier, bundle: nil)
+  }
   
   @IBOutlet weak var firstImageView: UIImageView?
   @IBOutlet weak var firstLabel: UILabel?
