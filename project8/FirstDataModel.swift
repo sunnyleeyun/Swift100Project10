@@ -31,8 +31,9 @@ class FirstDataModel{
       case true:
         if let data = response.result.value{
           
-          let json = data as AnyObject?
+          let json = JSON(data)
           print(json)
+          
           
           //print(data as! [AnyObject])
           self.setDataWithResponse(response: json)
@@ -46,17 +47,27 @@ class FirstDataModel{
     }
   }
   
-  private func setDataWithResponse(response: AnyObject?) {
+  private func setDataWithResponse(response: JSON) {
     var data = [FirstDataModelItem]()
-    if let responseData = response as? [[String:AnyObject]]{
-      for item in responseData {
-        // create FirstDataModelItem out of AnyObject
-        if let firstDataModelItem = FirstDataModelItem(data: item as? [String : String]){
-          data.append(firstDataModelItem)
-        }
-        delegate?.didRecieveDataUpdate(data: data)
+    var arr = response[0].dictionaryObject
+    for item in arr! {
+      
+      if let firstDataModelItem = FirstDataModelItem(data: item as? NSDictionary){
+        
       }
+      
     }
+    delegate?.didRecieveDataUpdate(data: data)
+//    if let responseData = response as? [[String:AnyObject]]{
+//      for item in responseData {
+//        // create FirstDataModelItem out of AnyObject
+//        if let firstDataModelItem = FirstDataModelItem(data: item as? [String : String]){
+//          data.append(firstDataModelItem)
+//          //print(response[""])
+//        }
+//        delegate?.didRecieveDataUpdate(data: data)
+//      }
+//    }
   }
   
 }
