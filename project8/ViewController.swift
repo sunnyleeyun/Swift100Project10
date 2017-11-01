@@ -46,7 +46,7 @@ class ViewController: UIViewController {
             let profileCell = FirstDataModelItem(data: json)
             self.profileCells.append(profileCell!)
           }
-          self.tableView?.reloadData()it
+          self.tableView?.reloadData()
           
         }
         

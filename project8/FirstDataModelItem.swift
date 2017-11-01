@@ -19,13 +19,7 @@ class FirstDataModelItem: NSObject{
     
     self.FirstImageUrl = data["url"].string
     self.FirstLabel = data["title"].string
-//    if let data = data, let image = data["url"], let label = data["title"]{
-//
-//      self.FirstImageUrl = image.string
-//      self.FirstLabel = label.string
-//    } else {
-//      return nil
-//    }
+
     
   }
   
