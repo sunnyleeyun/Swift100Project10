@@ -8,20 +8,20 @@
 
 import UIKit
 import Alamofire
+import SwiftyJSON
 
 class ViewController: UIViewController {
 
   @IBOutlet weak var tableView: UITableView?
-  fileprivate var dataArray = [FirstDataModelItem](){
-    didSet {
-      tableView?.reloadData()
-    }
-  }
+  
+  var profileCells = [FirstDataModelItem]()
+  
   // Note, that we do not create this data inside the ViewController
   // class: the dataArray is an empty array. We will feed it with data
   // later, using the Delegate.
   
-  private let dataSource = FirstDataModel()
+  let url = "https://jsonplaceholder.typicode.com/photos?albumId=1"
+
   
   
   override func viewDidLoad() {
@@ -32,14 +32,32 @@ class ViewController: UIViewController {
     tableView?.dataSource = self
     tableView?.delegate = self
     
-    dataSource.delegate = self
+    
+    Alamofire.request(url).validate().responseJSON { (response) in
+      switch response.result.isSuccess{
+      case true:
+        if let data = response.result.value{
+          
+          let jsonB = JSON(data)
+          print(jsonB)
+          
+          for json in jsonB[].arrayValue {
+            // make a viewcellmodel object
+            let profileCell = FirstDataModelItem(data: json)
+            self.profileCells.append(profileCell!)
+          }
+          self.tableView?.reloadData()it
+          
+        }
+        
+      case false:
+        print(response.result.error)
+      }
+    }
     
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(true)
-    dataSource.requestData()
-  }
+  
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
@@ -58,24 +76,18 @@ extension ViewController: UITableViewDataSource{
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if let cell = tableView.dequeueReusableCell(withIdentifier: FirstTableViewCell.identifier, for: indexPath) as? FirstTableViewCell
     {
-      cell.configureWithItem(item: dataArray[indexPath.item])
+      cell.configureWithItem(item: profileCells[indexPath.item])
       return cell
     }
     
     return UITableViewCell()
   }
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return dataArray.count
+    return profileCells.count
   }
 }
 
-extension ViewController: FirstDataModelDelegate{
-  func didFailDataUpdateWithError(error: Error) {
-  }
-  func didRecieveDataUpdate(data: [FirstDataModelItem]) {
-    dataArray = data
-  }
-}
+
 
 
 

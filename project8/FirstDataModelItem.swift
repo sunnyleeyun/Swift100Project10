@@ -8,24 +8,30 @@
 
 import Foundation
 import SwiftyJSON
+import Alamofire
 
-class FirstDataModelItem{
+class FirstDataModelItem: NSObject{
   
   var FirstImageUrl: String?
   var FirstLabel: String?
   
-  init?(data: NSDictionary) {
+  init?(data: JSON) {
     
-    self.FirstImageUrl = data.value(forKey: "url") as? String
-    self.FirstLabel = data.value(forKey: "title") as? String
-  
-  
+    self.FirstImageUrl = data["url"].string
+    self.FirstLabel = data["title"].string
 //    if let data = data, let image = data["url"], let label = data["title"]{
 //
-//      self.FirstImageUrl = image
-//      self.FirstLabel = label
+//      self.FirstImageUrl = image.string
+//      self.FirstLabel = label.string
 //    } else {
 //      return nil
 //    }
+    
   }
+  
+  
+  
+  
+  
+  
 }
